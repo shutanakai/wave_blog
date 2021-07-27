@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Static Wave</title>
+    <title>Multiple Dynamic Wave</title>
     <style>
       body {
         margin: 0;
@@ -39,15 +39,17 @@
         const amplitude = stageH / 3;
         const time = Date.now() / 1000;
 
-        [...Array(segmentNum).keys()].forEach((i) => {
-          const x = (i / (segmentNum - 1)) * stageW;
-          const radian = (i / segmentNum) * 5 * Math.PI + time;
-          const y = amplitude * Math.sin(radian) + stageH / 2;
-          if (i === 0) {
-            context.moveTo(x, y);
-          } else {
-            context.lineTo(x, y);
-          }
+        [...Array(lineNum).keys()].forEach((j) => {
+          [...Array(segmentNum).keys()].forEach((i) => {
+            const x = (i / (segmentNum - 1)) * stageW;
+            const radian = (i / segmentNum) * (j / lineNum) * Math.PI + time;
+            const y = amplitude * Math.sin(radian) + stageH / 2;
+            if (i === 0) {
+              context.moveTo(x, y);
+            } else {
+              context.lineTo(x, y);
+            }
+          });
         });
 
         context.stroke();
@@ -60,8 +62,13 @@
         canvas.height = stageH;
       };
 
+      const tick = () => {
+        requestAnimationFrame(tick);
+        draw();
+      };
+
+      tick();
       resize();
-      draw();
       window.addEventListener("resize", resize);
     </script>
   </body>
