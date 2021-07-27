@@ -32,22 +32,24 @@
         context.clearRect(0, 0, stageW, stageH);
         context.lineWidth = 3;
         context.beginPath();
-
-        const segmentNum = 100;
-        const amplitude = stageH / 5;
-
-        // cosの曲線
         context.strokeStyle = "green";
+
+        const lineNum = 50;
+        const segmentNum = 1000;
+        const amplitude = stageH / 3;
+        const time = Date.now() / 1000;
+
         [...Array(segmentNum).keys()].forEach((i) => {
           const x = (i / (segmentNum - 1)) * stageW;
-          const radian = (i / segmentNum) * 5 * Math.PI;
-          const y = amplitude * Math.cos(radian) + stageH / 2;
+          const radian = (i / segmentNum) * 5 * Math.PI + time;
+          const y = amplitude * Math.sin(radian) + stageH / 2;
           if (i === 0) {
             context.moveTo(x, y);
           } else {
             context.lineTo(x, y);
           }
         });
+
         context.stroke();
       };
 
@@ -58,8 +60,8 @@
         canvas.height = stageH;
       };
 
-      draw();
       resize();
+      draw();
       window.addEventListener("resize", resize);
     </script>
   </body>
