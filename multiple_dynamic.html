@@ -42,7 +42,8 @@
         [...Array(lineNum).keys()].forEach((j) => {
           [...Array(segmentNum).keys()].forEach((i) => {
             const x = (i / (segmentNum - 1)) * stageW;
-            const radian = (i / segmentNum) * (j / lineNum) * Math.PI + time;
+            const radian =
+              (i / segmentNum) * ((2 * j) / lineNum) * Math.PI + time;
             const y = amplitude * Math.sin(radian) + stageH / 2;
             if (i === 0) {
               context.moveTo(x, y);
