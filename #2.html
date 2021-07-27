@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wave Test</title>
+    <style>
+      body {
+        margin: 0;
+        height: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+      let stageW = 800;
+      let stageH = 600;
+
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("2d");
+
+      const draw = () => {
+        context.clearRect(0, 0, stageW, stageH);
+        context.lineWidth = 3;
+        context.beginPath();
+        context.strokeStyle = "green";
+
+        const lineNum = 50;
+        const segmentNum = 1000;
+        const amplitude = stageH / 3;
+        const time = Date.now() / 1000;
+
+        [...Array(segmentNum).keys()].forEach((i) => {
+          const x = (i / (segmentNum - 1)) * stageW;
+          const radian = (i / segmentNum) * 5 * Math.PI + time;
+          const y = amplitude * Math.sin(radian) + stageH / 2;
+          if (i === 0) {
+            context.moveTo(x, y);
+          } else {
+            context.lineTo(x, y);
+          }
+        });
+
+        context.stroke();
+      };
+
+      const resize = () => {
+        stageW = innerWidth * devicePixelRatio;
+        stageH = innerHeight * devicePixelRatio;
+        canvas.width = stageW;
+        canvas.height = stageH;
+      };
+
+      const tick = () => {
+        requestAnimationFrame(tick);
+        draw();
+      };
+
+      tick();
+      resize();
+      window.addEventListener("resize", resize);
+    </script>
+  </body>
+</html>
