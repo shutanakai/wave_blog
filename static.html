@@ -26,30 +26,41 @@
       let stageH = 600;
 
       const canvas = document.querySelector("canvas");
-      canvas.width = stageW;
-      canvas.height = stageH;
       const context = canvas.getContext("2d");
 
-      context.clearRect(0, 0, stageW, stageH);
-      context.lineWidth = 3;
-      context.beginPath();
+      const draw = () => {
+        context.clearRect(0, 0, stageW, stageH);
+        context.lineWidth = 3;
+        context.beginPath();
 
-      const segmentNum = 100;
-      const amplitude = stageH / 5;
+        const segmentNum = 100;
+        const amplitude = stageH / 5;
 
-      // cosの曲線
-      context.strokeStyle = "green";
-      [...Array(segmentNum).keys()].forEach((i) => {
-        const x = (i / (segmentNum - 1)) * stageW;
-        const radian = (i / segmentNum) * 5 * Math.PI;
-        const y = amplitude * Math.cos(radian) + stageH / 2;
-        if (i === 0) {
-          context.moveTo(x, y);
-        } else {
-          context.lineTo(x, y);
-        }
-      });
-      context.stroke();
+        // cosの曲線
+        context.strokeStyle = "green";
+        [...Array(segmentNum).keys()].forEach((i) => {
+          const x = (i / (segmentNum - 1)) * stageW;
+          const radian = (i / segmentNum) * 5 * Math.PI;
+          const y = amplitude * Math.cos(radian) + stageH / 2;
+          if (i === 0) {
+            context.moveTo(x, y);
+          } else {
+            context.lineTo(x, y);
+          }
+        });
+        context.stroke();
+      };
+
+      const resize = () => {
+        stageW = innerWidth * devicePixelRatio;
+        stageH = innerHeight * devicePixelRatio;
+        canvas.width = stageW;
+        canvas.height = stageH;
+      };
+
+      draw();
+      resize();
+      window.addEventListener("resize", resize);
     </script>
   </body>
 </html>
